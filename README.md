@@ -13,6 +13,7 @@
 #### 练习点
 1. 复习vue的v-for指令
 2. 不要js拼凑html,从js中剥离开来
+![图片](https://raw.githubusercontent.com/wiki/sodyxiezhen/practise2_vue_review/info.png)
 
 #### 搭建本例子
 1. git clone 到本地
