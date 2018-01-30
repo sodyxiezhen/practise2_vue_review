@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue复习1</title>
+	<link rel="stylesheet" type="text/css" href="js/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row animated bounceInRight" id="content">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/axios.min.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/x-template" id="feifeiTemplate">
+	<div id="contentPanel">
+		<div v-for="beauty in beautys" class="col-sm-6 col-md-4">
+		    <div class="thumbnail">
+		      <img :src="beauty.headPic">
+		      <div class="caption">
+		        <h3>{{beauty.title}}</h3>
+		        <p>{{beauty.content}}</p>
+		      </div>
+		    </div>
+	  	</div>
+	</div>
+</script>
+<script type="text/javascript">
+	let template = $('#feifeiTemplate').html();
+	console.log(template);
+	const app = new Vue({
+		el: '#content',
+		template: template,
+		data:{
+			beautys: []
+		},
+		created: function(){
+			//拓展jquery
+			this.extendAnimateCss();
+			//发送请求
+			var url = './mock/beauty.json';
+			var _this = this;
+			axios.get(url).then(function(response){
+				console.log(response.data);
+				_this.beautys = response.data;
+				//重新触发加载动效
+				$('#contentPanel').animateCss('bounceInRight');
+			});
+		},
+		methods: {
+			extendAnimateCss:function(){
+				$.fn.extend({
+				  animateCss: function(animationName, callback) {
+				  	$(this).removeClass(animationName + ' animated');
+				  	var _this = this;
+				  	setTimeout(function(){
+				  		$(_this).addClass(animationName + ' animated');
+				  	}, 100);
+				    return this;
+				  }
+				});
+			}
+		}
+	});
+</script>
+</html>
